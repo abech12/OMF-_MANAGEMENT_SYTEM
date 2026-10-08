@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block extrastyle %} 
+
+  <link rel="stylesheet" href="/static/plugins/daterangepicker/daterangepicker.css">
+  
+ {% endblock %}
+{%load crispy_forms_tags %}
+{%block title%} OCSSC | Transaction| Create {%endblock%}
+
+    <!-- /.content -->
+{%block content%}
+    <!---------->
+        <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Transact</h1>
+          </div><!-- /.col -->
+           
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+      <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          
+         <div class="col-lg-12">
+         <div class="card"> 
+                       
+              <div class="card-header">
+                <h3 class="card-title">Transact</h3>
+              </div>
+              <!-- /.card-header -->
+              <form action="" method="post" >
+                <div class="card-body">
+                  {%if form.errors%}
+                    <div class="alert alert-danger" role="alert">
+                      {{form.errors}}
+                    </div>
+                  {% endif %}                                                       
+                  {%csrf_token%}
+
+                  <div class="form-group">
+                    <label>Current Value</label> 
+                    <b>{{customer.initial_deposit}}</b>
+                  </div>
+                  <div class="form-group">
+                    <label >Amount</label> 
+                    {{form.amount}}
+                    
+                  </div>
+                  <div class="form-group"> 
+                      <label>Transaction</label> 
+                      {{form.transaction}}                   
+             
+                </div>
+
+                  </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+         </div>       
+         </div>
+         </div>
+ 
+         </div>
+       </section>
+
+       <script>
+         //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+
+        //Date and time picker
+    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+        //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+       </script>
+  {%endblock%}
+
+                
+
+
+<!---------->
+  <!-- /.content-wrapper -->
+
+
+<!-- ./wrapper -->
+

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block extrastyle %}
+{% endblock %}
+{%block title%} OCSSC |Savings Type| List {%endblock%}
+    <!-- /.content -->
+{%block content%}
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">List of Branches</h1>
+          </div><!-- /.col -->
+          
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+
+    <!---------->
+        <section class="content">
+          <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12">
+                   <div class="card">
+                      <div class="card-header">
+                            <div class="header-elements" align="left">
+                            <a href="{% url 'savings_create' %}" class="btn btn-success">Add a Savings Type</a> 
+                            
+                            </div>
+                        </div>
+
+                
+                <!-- /.card-header -->
+                      <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+
+                          <thead>
+                          <tr>
+                            <th>Account Type</th>
+                            <th>Discription</th>
+                            <th>Date</th>
+                            <th>Delete</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                            {% for account in savings%}
+                          <tr>
+                            <td>{{account.name}}</td>
+                            <td>{{account.detail|truncatewords:30}}</td>
+                            <td>{{account.date}}</td>
+                            <td>
+                              <a href="{% url 'savings_delete' id=account.id %}" type="button" onclick="return confirm ('Are you sure you want to delete this ?')"  class="btn btn-block btn-outline-danger btn-sm">Delete</a>
+                            </td>
+                          </tr>
+                          {%endfor%}
+                          </tbody>
+                          <tfoot>
+                          <tr>
+                            <th>Account Type</th>
+                            <th>Discription</th>
+                            <th>Date</th>
+                            <th>Delete</th>
+                          </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                <!-- /.card-body -->
+                      </div>
+                    </div>
+                  </div>
+          </div>
+        </section>
+
+{%endblock%}

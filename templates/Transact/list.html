@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block extrastyle %}
+{% endblock %}
+{%block title%} OCSSC | Transaction| List {%endblock%}
+    <!-- /.content -->
+{%block content%}
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">List of Transactions</h1>
+          </div><!-- /.col -->
+          
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    
+    <!-- /.content -->
+
+    <!---------->
+        <section class="content">
+          <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12">
+                   <div class="card">
+                      <div class="card-header">
+                        </div>
+
+                
+                <!-- /.card-header -->
+                      <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+
+                          
+
+                          <thead>
+                           <tr>
+ 
+                            <th>Name </th>
+                            <th>Account Name </th>
+                            <th>Inital</th>
+                            <th>Final</th>
+                            <th>Transaction</th>
+                            <th>Date </th>
+                            
+                          </tr>
+                          </thead>
+
+                          <tbody>
+                            {%for form in banking%}
+                          <tr>
+                            <th>{{form.customer}}</th>
+                            <th>{{form.customer.account_number}}</th>
+                            <th>{{form.initial_value}}</th>
+                            <th>{{form.final_value}}</th>
+
+                            <th>{{form.transaction}}</th>
+                            <th>{{form.date}}</th>
+                          </tr>
+                            {%endfor%}
+                        
+                          </tbody>
+                          <tfoot>
+                          <tr>
+
+                             <th>Name </th>
+                            <th>Account Name </th>
+                             <th>Inital</th>
+                            <th>Final</th>
+                            <th>Transaction</th>
+                            <th>Date </th>
+                            
+                          </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                <!-- /.card-body -->
+                      </div>
+                    </div>
+                  </div>
+          </div>
+        </section>
+
+{%endblock%}

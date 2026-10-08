@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+{% block extrastyle %} 
+
+
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="/static/plugins/daterangepicker/daterangepicker.css">
+  
+
+
+<!-- jQuery -->
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="/static/plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="/static/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- InputMask -->
+<script src="/static/plugins/moment/moment.min.js"></script>
+<script src="/static/plugins/inputmask/jquery.inputmask.min.js"></script>
+<!-- date-range-picker -->
+<script src="/static/plugins/daterangepicker/daterangepicker.js"></script>
+
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+
+    //Date and time picker
+    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    })
+
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
+
+  })
+  // BS-Stepper Init
+  document.addEventListener('DOMContentLoaded', function () {
+    window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+  })
+
+  // DropzoneJS Demo Code Start
+  Dropzone.autoDiscover = false
+
+  // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+  var previewNode = document.querySelector("#template")
+  previewNode.id = ""
+  var previewTemplate = previewNode.parentNode.innerHTML
+  previewNode.parentNode.removeChild(previewNode)
+
+  var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+    url: "/target-url", // Set the url
+    thumbnailWidth: 80,
+    thumbnailHeight: 80,
+    parallelUploads: 20,
+    previewTemplate: previewTemplate,
+    autoQueue: false, // Make sure the files aren't queued until manually added
+    previewsContainer: "#previews", // Define the container to display the previews
+    clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+  })
+
+  myDropzone.on("addedfile", function(file) {
+    // Hookup the start button
+    file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file) }
+  })
+
+  // Update the total progress bar
+  myDropzone.on("totaluploadprogress", function(progress) {
+    document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+  })
+
+  myDropzone.on("sending", function(file) {
+    // Show the total progress bar when upload starts
+    document.querySelector("#total-progress").style.opacity = "1"
+    // And disable the start button
+    file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+  })
+
+  // Hide the total progress bar when nothing's uploading anymore
+  myDropzone.on("queuecomplete", function(progress) {
+    document.querySelector("#total-progress").style.opacity = "0"
+  })
+
+  // Setup the buttons for all transfers
+  // The "add files" button doesn't need to be setup because the config
+  // `clickable` has already been specified.
+  document.querySelector("#actions .start").onclick = function() {
+    myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+  }
+  document.querySelector("#actions .cancel").onclick = function() {
+    myDropzone.removeAllFiles(true)
+  }
+  // DropzoneJS Demo Code End
+</script>
+ {% endblock %}
+{%load crispy_forms_tags %}
+{%block title%} OCSSC | Account| Edit {%endblock%}
+
+    <!-- /.content -->
+{%block content%}
+    <!---------->
+        <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Edit User information</h1>
+          </div><!-- /.col -->
+           
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+      <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          
+         <div class="col-lg-12">
+         <div class="card"> 
+                       
+              <div class="card-header">
+                <h3 class="card-title">User</h3>
+              </div>
+              <!-- /.card-header -->
+              <form action="" method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                  {%if form.errors%}
+                    <div class="alert alert-danger" role="alert">
+                      {{form.errors}}
+                    </div>
+                  {% endif %}                                                       
+                  {%csrf_token%}
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">First Name</label> 
+                    <input type="text" required name="first_name" class="form-control" value="{{form.first_name}}" >
+                    
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Last Name</label> 
+                    <input type="text" required name="last_name" class="form-control" value="{{form.last_name}}" >
+                    
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">User Name</label> 
+                    <input type="text" required name="username" class="form-control" value="{{form.username}}" >
+                    
+                  </div>
+                  
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Phone</label> 
+                    <input type="text" required name="phone_number" class="form-control" value="{{form.phone_number}}" >
+                    
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">address</label>
+                    <input type="text" required name="address" class="form-control" value="{{form.address}}" > 
+                    
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">city</label> 
+                    <input type="text" required name="city" class="form-control" value="{{form.city}}" >
+                    
+                  </div>
+
+
+                  <div class="form-group"> 
+                      <label> Position</label> 
+                      <select required name="user_type" class="form-control form-control-uniform" data-fouc>
+                        {%if form.is_auditor %}
+                        <option value="is_auditor">is_auditor</option>
+                        <option value="is_manager">is_manager</option>
+                        <option value="is_customer_service">is_customer_service</option>
+                        <option value="is_system_admin">is_system_admin</option>
+                        {%endif%}
+                        {%if form.is_manager %}
+                        <option value="is_manager">is_manager</option>
+                        <option value="is_auditor">is_auditor</option>
+                        <option value="is_customer_service">is_customer_service</option>
+                        <option value="is_system_admin">is_system_admin</option>
+                        {%endif%}
+                        {%if form.is_customer_service %}
+                        <option value="is_customer_service">is_customer_service</option>
+                        <option value="is_auditor">is_auditor</option>
+                        <option value="is_manager">is_manager</option>
+                        <option value="is_system_admin">is_system_admin</option>
+                        {%endif%}
+                        {%if form.is_system_admin %}
+                        <option value="is_system_admin">is_system_admin</option>
+                        <option value="is_auditor">is_auditor</option>
+                        <option value="is_manager">is_manager</option>
+                        <option value="is_customer_service">is_customer_service</option>
+                        {%endif%}
+                        
+                      </select>
+             
+                </div>
+
+                   <div class="form-group"> 
+                      <label> Branch</label> 
+                      <select required name="office_branch" class="form-control form-control-uniform" data-fouc>
+                         <option value="{{form.office_branch.id}}">{{form.office_branch}}</option>
+                          {%for name in branchs%}
+                            {%if name == form.office_branch %}
+                            {%else%}
+                            <option value="{{name.id}}">{{name}}</option>
+                            {%endif%}
+                          {%endfor%}
+                      </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Current Document</label> 
+                    <img class="card-img img-fluid" src="{{form.qualification_document.url}}" width="250" height="200" alt="">
+                    
+                      <div class="form-group row">
+                      <label class="col-form-label col-lg-3">Change images:</label>
+                      <div class="col-lg-9">
+                          <input  type="file"  name="qualification_document" >
+                      </div>
+                    </div>
+                  </div> 
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Current photograph </label> 
+                    <img class="card-img img-fluid" src="{{form.photograph.url}}" width="250" height="200" alt="">
+                    
+                      <div class="form-group row">
+                      <label class="col-form-label col-lg-3">Change images:</label>
+                      <div class="col-lg-9">
+                          <input  type="file"  name="photograph" >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Current Identification</label> 
+                    <img class="card-img img-fluid" src="{{form.identification.url}}" width="250" height="200" alt="">
+                    
+                      <div class="form-group row">
+                      <label class="col-form-label col-lg-3">Change images:</label>
+                      <div class="col-lg-9">
+                          <input  type="file"  name="identification" >
+                      </div>
+                    </div>
+                  </div>
+
+                  
+                  </div>
+                  <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                </div>
+                <!-- /.card-body -->
+
+                
+              </form>
+         </div>       
+         </div>
+         </div>
+ 
+         </div>
+       </section>
+
+       <script>
+         //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+
+        //Date and time picker
+    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+        //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+       </script>
+  {%endblock%}
+
+                
+
+
+<!---------->
+  <!-- /.content-wrapper -->
+
+
+<!-- ./wrapper -->
+
